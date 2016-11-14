@@ -1,0 +1,222 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <div class="x_panel kai-topLine-primary" style="border-bottom-left-radius:0;border-bottom-right-radius:0">
+            <div class="x_content font-18px">
+                <div style="float:left;">
+                    <h3>
+                        人員帳號管理　　　
+                    </h3>
+                </div>
+                <div class="font-16px pull-right" style="margin-top:7px;margin-left:10px;">
+                    <select class="form-control" ng-model="userManager.myPage.searchState" style="width:80px;">
+                        <option value="啟用">啟用</option>
+                        <option value="停用">停用</option>
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="font-16px pull-right" style="margin-top:7px;">
+                    <input type="text" style="width:200px;" class="form-control" ng-model="userManager.myPage.searchKey" placeholder="快速搜尋">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2">
+        <div class="x_panel" style="text-align:center;min-height:92px;vertical-align:middle;line-height:65px;">
+            <button class="btn btn-app" style="width:100%;height:100%;margin:0;" ng-if="userManager.addUserFlag" ng-disabled="!userManager.nowEditFlag" ng-click="userManager.addUser('edit')">
+                <i class="fa fa-users"></i> 新增
+            </button>
+            <button class="btn btn-primary" style="width:42%;height:100%" ng-disabled="!addForm.$valid" ng-hide="userManager.addUserFlag" ng-if="!addForm.$valid">
+                <i class="fa fa-check"></i>
+            </button>
+            <button class="btn btn-primary" style="width:42%;height:100%" ng-if="addForm.$valid" ng-hide="userManager.addUserFlag" ng-click="userManager.addUser('ok')">
+                <i class="fa fa-check"></i>
+            </button>
+            <button class="btn btn-default" style="width:42%;height:100%" ng-hide="userManager.addUserFlag" ng-click="userManager.addUser('no')">
+                <i class="fa fa-close"></i>
+            </button>
+        </div>
+    </div>
+    <div class="col-sm-12 col-xs-12 col-md-10 col-lg-10">
+        <div class="collapse" id="addUser">
+            <form class="x_panel" style="text-align:center;" name="addForm">
+                <div class="col-xs-12 col-sm-2">
+                    <div class="font-16px" style="text-align:left;margin-bottom:10px;">
+                        帳號：*
+                    </div>
+                    <div ng-class="{'has-error':addForm.email.$error.email}" style="margin-bottom:10px;">
+                        <input type="email" maxlength="30" id="email" ng-change="userManager.tips('email',addForm.email.$error.email)" data-toggle="tooltip" data-trigger="manual" data-placement="top" title="格式須為Email" name="email" ng-model="userManager.addUserList.UserID" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <div class="font-16px" style="text-align:left;margin-bottom:10px;">
+                        密碼：*
+                    </div>
+                    <div ng-class="{'has-error':!addForm.password.$valid}" style="margin-bottom:10px;">
+                        <input type="password" maxlength="20" ng-model="userManager.addUserList.Password" name="password" id="newPassword" ng-change="userManager.tips('newPassword',!addForm.password.$valid)" data-toggle="tooltip" data-trigger="manual" data-placement="top" title="不可空白" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <div class="font-16px" style="text-align:left;margin-bottom:10px;">
+                        姓名：*
+                    </div>
+                    <div ng-class="{'has-error':!addForm.name.$valid}" style="margin-bottom:10px;">
+                        <input type="text" maxlength="20" ng-model="userManager.addUserList.UserName" name="name" id="newname" ng-change="userManager.tips('newname',!addForm.name.$valid)" data-toggle="tooltip" data-trigger="manual" data-placement="top" title="不可空白" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <div class="font-16px" style="text-align:left;margin-bottom:10px;">
+                        職稱：*
+                    </div>
+                    <div>
+                        <select class="form-control" ng-model="userManager.addUserList.JobTitle" style="margin-bottom:10px;">
+                            <option ng-repeat="JobTitleList in userManager.JobTitleList" value="{{JobTitleList.JobTitleID}}">{{JobTitleList.Name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <div class="font-16px" style="text-align:left;margin-bottom:10px;">
+                        股別：
+                    </div>
+                    <div>
+                        <select class="form-control" ng-model="userManager.addUserList.Unit" style="margin-bottom:10px;">
+                            <option value="1">號誌股</option>
+                            <option value="2">交控股</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <div class="font-16px" style="text-align:left;margin-bottom:10px;">
+                        承辦人：
+                    </div>
+                    <div>
+                        <select class="form-control" ng-model="userManager.addUserList.Officer" style="margin-bottom:10px;">
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+    <div class="col-sm-12 col-xs-12" style="margin-bottom:10px;">
+        <div class="table-responsive userListItem" style="opacity:0;">
+            <table class="table table-striped table-bordered table-hover font-16px caseListItem table-responsive" style="margin:0;background-color:white;">
+                <thead>
+                    <tr>
+                        <th>
+                            帳號
+                        </th>
+                        <th style="width:200px;min-width:140px;max-width:220px;">
+                            密碼
+                        </th>
+                        <th style="width:180px;min-width:120px;max-width:200px;">
+                            姓名
+                        </th>
+                        <th style="width:180px;min-width:120px;max-width:200px;">
+                            職稱
+                        </th>
+                        <th style="width:130px;min-width:110px;max-width:145px;text-align:center;">
+                            股別
+                        </th>
+                        <th style="width:120px;min-width:95px;max-width:145px;text-align:center;">
+                            狀態
+                        </th>
+                        <th style="width:120px;min-width:85px;max-width:145px;text-align:center;">
+                            承辦人
+                        </th>
+                        <th style="width:120px;min-width:85px;max-width:145px;text-align:center;">
+                            管理者
+                        </th>
+                        <th style="width:81px;min-width:81px;max-width:81px;text-align:center;">
+                            編輯
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="userList in userManager.myPage.nowList">
+                        <td style="vertical-align:middle;max-width:150px;" class="kai-textOver">
+                            <span class="kai-addUserSpan form-16px">{{userList.UserID}}</span>
+                        </td>
+                        <td style="vertical-align:middle;max-width:140px;" class="kai-textOver">
+                            <span class="editUser{{userList.UserLoginID}} kai-addUserSpan form-16px">●●●●●●</span>
+                            <input type="password" maxlength="20" ng-model="userList.Password" class="form-control kai-display editUserC{{userList.UserLoginID}}" placeholder="空白代表不更改">
+                        </td>
+                        <td style="vertical-align:middle;max-width:120px;" class="kai-textOver">                            
+                                <span class="editUser{{userList.UserLoginID}} kai-addUserSpan form-16px">{{userList.UserName}}</span>
+                            <div ng-class="{'has-error':userList.userNameErr}">
+                                <input type="text" maxlength="20" ng-model="userList.UserName"
+                                       class="form-control kai-display editUserC{{userList.UserLoginID}}"
+                                       ng-change="userManager.setClassErr(userList.UserName,userList,'userNameErr')" required />
+                            </div>
+                        </td>
+                        <td style="vertical-align:middle;max-width:120px;" class="kai-textOver">
+                            <span class="editUser{{userList.UserLoginID}} kai-addUserSpan form-16px">{{userList.JobTitle.Name}}</span>
+                            <select class="kai-display form-control editUserC{{userList.UserLoginID}}" ng-model="userList.JobTitle"
+                                    ng-options="JobTitleList.Name for JobTitleList in userManager.JobTitleList track by JobTitleList.JobTitleID"></select>
+                        </td>
+                        <td style="vertical-align:middle;max-width:150px;text-align:center;" class="kai-textOver">
+                            <span class="editUser{{userList.UserLoginID}} kai-addUserSpan form-16px">{{userList.Unit.Name}}</span>
+                            <select class="kai-display form-control editUserC{{userList.UserLoginID}}" ng-model="userList.Unit"
+                                    ng-options="UnitList.Name for UnitList in userManager.UnitList track by UnitList.Unit"></select>
+                        </td>
+                        <td style="vertical-align:middle;max-width:130px;text-align:center;" class="kai-textOver">
+                            <span class="editUser{{userList.UserLoginID}} kai-addUserSpan form-16px">{{userList.State.Name}}</span>
+                            <select class="kai-display form-control editUserC{{userList.UserLoginID}}" ng-model="userList.State"
+                                    ng-options="StateList.Name for StateList in userManager.StateList track by StateList.State"></select>
+                        </td>
+                        <td style="vertical-align:middle;max-width:130px;text-align:center;" class="kai-textOver">
+                            <span class="editUser{{userList.UserLoginID}} kai-addUserSpan form-16px">{{userList.Officer.Name}}</span>
+                            <select class="kai-display form-control editUserC{{userList.UserLoginID}}" ng-model="userList.Officer"
+                                    ng-options="OfficerList.Name for OfficerList in userManager.OfficerList track by OfficerList.Officer"></select>
+                        </td>
+                        <td style="vertical-align:middle;max-width:130px;text-align:center;" class="kai-textOver">
+                            <span class="editUser{{userList.UserLoginID}} kai-addUserSpan form-16px">{{userList.Admin.Name}}</span>
+                            <select class="kai-display form-control editUserC{{userList.UserLoginID}}" ng-model="userList.Admin"
+                                    ng-options="AdminList.Name for AdminList in userManager.AdminList track by AdminList.Admin"></select>
+                        </td>
+                        <td style="vertical-align:middle;min-width:100px;text-align:center;" class="kai-textOver">
+                            <button class="kai-margin0 btn btn-dark editUser{{userList.UserLoginID}}" ng-if="userManager.nowEditFlag" ng-click="userManager.editUser('edit',userList.UserLoginID,userList)"><i class="fa fa-pencil"></i></button>
+                            <button class="kai-margin0 btn btn-primary kai-display editUserC{{userList.UserLoginID}}" ng-click="userManager.editUser('ok',userList.UserLoginID,userList)"><i class="fa fa-check"></i></button>
+                            <button class="kai-margin0 btn btn-default kai-display editUserC{{userList.UserLoginID}}" ng-click="userManager.editUser('no',userList.UserLoginID,userList)"><i class="fa fa-close"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-12 hidden-xs userListItem" style="opacity:0;" ng-show="userManager.myPage.pageShow">
+            <div style="width:100%;text-align:center;">
+                <uib-pagination total-items="userManager.myPage.totalItems.length"
+                                ng-model="userManager.myPage.currentPage"
+                                items-per-page="userManager.myPage.itemsPerPage"
+                                max-size="userManager.myPage.maxSize"
+                                class="pagination-lg"
+                                boundary-links="true"
+                                previous-text="上一頁"
+                                next-text="下一頁"
+                                first-text="<<"
+                                last-text=">>">
+                </uib-pagination>
+            </div>
+        </div>
+        <div class="col-xs-12 visible-xs-inline-block userListItem" style="opacity:0;" ng-show="userManager.myPage.pageShow">
+            <div style="width:100%;text-align:center;">
+                <uib-pagination total-items="userManager.myPage.totalItems.length"
+                                ng-model="userManager.myPage.currentPage"
+                                items-per-page="userManager.myPage.itemsPerPage"
+                                max-size="2"
+                                class="pagination"
+                                previous-text="上一頁"
+                                next-text="下一頁"
+                                first-text="<<"
+                                last-text=">>">
+                </uib-pagination>
+            </div>
+        </div>
+    </div>
+</div>

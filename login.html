@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="short icon" href="councilorFavicon.ico" />
+    <link rel="icon" href="councilorFavicon.ico" type="image/ico" />
+    <link rel="Bookmark" href="councilorFavicon.ico" type="image/x-icon" />
+    <title>登入頁面</title>
+
+    <script type="text/javascript" src="kCustom/jquery.min.js"></script>
+    <script type="text/javascript" src="AdminTemplate/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="AdminTemplate/css/bootstrap.css" />
+    <link rel="stylesheet" href="AdminTemplate/fonts/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="AdminTemplate/css/custom.css" />
+    <link rel="stylesheet" href="AdminTemplate/css/icheck/flat/green.css">
+    <link href="kCustom/Kai.css" rel="stylesheet" />
+</head>
+<body style="background: #F7F7F7;" onkeydown='enterDown()'>
+    <div class="">
+        <a class="hiddenanchor" id="toregister"></a>
+        <a class="hiddenanchor" id="tologin"></a>
+        <div id="wrapper">
+            <div id="login" class="animate form">
+                <section class="login_content">
+                    <form>
+                        <h1 style="font-family:微軟正黑體;font-size:20px;">議員建議案件列管系統</h1>
+                        <div>
+                            <input type="text" class="form-control" placeholder="Email帳號" id="councilorID" required="" />
+                        </div>
+                        <div>
+                            <input type="password" class="form-control" maxlength="20" placeholder="密碼" id="councilorPassword" required="" />
+                        </div>
+                        <div style="width:50%;float:left;">
+                            <button class="btn btn-info submit" id="submit" style="width:100%;font-size:14px;">登入</button>
+                        </div>
+                        <div style="width:50%;float:left;line-height:34px;vertical-align:middle;">
+                            <a href="#">忘記密碼？</a>
+                        </div>
+                        <div id="message" style="width:100%;float:left;text-align:center;color:red;font-size:10px;display:none;">
+                            <br />
+                            帳號密碼錯誤
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="separator">
+                            <div class="clearfix"></div>
+                            <br />
+                            <div>
+                                <h1 style="font-family:微軟正黑體"><i class="fa fa-institution" style="font-size: 26px;"></i> 智慧運輸中心</h1>
+                                <p>高雄市政府交通局 © 2016 All Rights Reserved</p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function login() {
+        $('#submit').text('登入中');
+        $("#submit").attr("disabled", true);
+        $.ajax({
+            url: 'api/login/login',
+            type: 'POST',
+            data: {
+                id: $('#councilorID').val(),
+                password: $('#councilorPassword').val(),
+            },
+            success: function (data) {
+                console.log(data);
+                if (data == "ok") {
+                    document.location.href = "index";
+                } else {
+                    $('#message').css("display", "");
+                    $('#submit').text('登入');
+                    $("#submit").attr("disabled", false);
+                }
+            }
+        });
+    }
+    $(document).on('click', '#submit', function (event) {
+        login();
+    });
+    function enterDown() {
+        if ($('#councilorPassword').val() != "") {
+            if (event.keyCode == 13) {
+                login();
+            }
+        }
+    }
+</script>

@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="CouncilorITC" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=KAI-PC\SQLEXPRESS;Initial Catalog=CouncilorITC;User ID=talll" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CouncilorCaseConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Zone" Member="Zone">
+    <Type Name="Zone">
+      <Column Name="ZoneID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="ZoneOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CouncilorName" Member="CouncilorName">
+    <Type Name="CouncilorName">
+      <Column Name="CouncilorNameID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CouncilorTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="CouncilorNameOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CouncilorType" Member="CouncilorType">
+    <Type Name="CouncilorType">
+      <Column Name="CouncilorTypeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.searchCase" Member="searchCase">
+    <Type Name="searchCase">
+      <Column Name="CaseBase" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserLoginID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.searchZone" Member="searchZone">
+    <Type Name="searchZone">
+      <Column Name="Zone" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ZoneID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.searchCouncilorName" Member="searchCouncilorName">
+    <Type Name="searchCouncilorName">
+      <Column Name="CouncilorName" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CouncilorNameID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SendName" Member="SendName">
+    <Type Name="SendName">
+      <Column Name="SendNameID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserLoginID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CaseBase" Member="CaseBase">
+    <Type Name="CaseBase">
+      <Column Name="CaseBaseID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CouncilorNameID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ContactName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="ContactTel" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="ZoneID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="SuggestContent" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="SuggestDate" Type="System.DateTime" DbType="DateTime" CanBeNull="false" />
+      <Column Name="ExecuteContent" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="CaseOfficerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(6)" CanBeNull="true" />
+      <Column Name="AccessMap" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.JobTitle" Member="JobTitle">
+    <Type Name="JobTitle">
+      <Column Name="JobTitleID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="JobTitleOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MailConfig" Member="MailConfig">
+    <Type Name="MailConfig">
+      <Column Name="MailConfigID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MailName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SendName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Subject" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Smtp" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Port" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MailID" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MailLog" Member="MailLog">
+    <Type Name="MailLog">
+      <Column Name="MailLogID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SendTo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SendContent" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SendMessage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SendDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserLogin" Member="UserLogin">
+    <Type Name="UserLogin">
+      <Column Name="UserLoginID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="JobTitleID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Unit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="UserOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Admin" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="Officer" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

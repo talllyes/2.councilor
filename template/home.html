@@ -1,0 +1,165 @@
+﻿<div class="row tile_count">
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count" style="height:85px;">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-file-text"></i> 案件總數</span>
+            <div class="count">{{home.caseNum.allCase}}</div>
+            <span class="count_bottom"><i class="green">{{home.caseNum.endCase}}件 </i> 已結案</span>
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-clock-o"></i> 列管案件</span>
+            <div class="count">{{home.caseNum.nowCase}}</div>
+            <span class="count_bottom"><i class="green">{{home.caseNum.thisCase}}件 </i> 本星期新增</span>
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-warning"></i> 逾期案件</span>
+            <div class="count red">{{home.caseNum.overCase}}</div>
+            <span class="count_bottom"><i class="green">{{home.caseNum.thisOverCase}}件 </i> 逾期7天內</span>
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-bar-chart-o"></i> 年度計畫</span>
+            <div class="count">{{home.caseNum.yearCase}}</div>
+            <span class="count_bottom"><i class="green">{{home.caseNum.thisYearCase}}件 </i> 本星期新增</span>
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-user"></i> 號誌股</span>
+            <div class="count">{{home.caseNum.one}}</div>
+            <span class="count_bottom"><i class="red">{{home.caseNum.overOne}}件 </i> 逾期案件</span>
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-user"></i> 交控股</span>
+            <div class="count">{{home.caseNum.two}}</div>
+            <span class="count_bottom"><i class="red">{{home.caseNum.overTwo}}件 </i> 逾期案件</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-clock-o"></i>　最新列管案件</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content font-14px" style="height:260px;">
+                <div class="table-responsive">
+                    <div style="min-width:1200px">
+                        <table class="table table-striped table-bordered table-hover font-16px caseListItem" style="display:none;opacity:0;margin-bottom:0;" id="caseListTable">
+                            <thead>
+                                <tr>
+                                    <th style="width:75px;min-width:75px;">
+                                        編號
+                                    </th>
+                                    <th style="min-width:120px;width:120px;">
+                                        建議時間
+                                    </th>
+                                    <th style="min-width:105px;width:105px;">
+                                        建議民代
+                                    </th>
+                                    <th style="min-width:100px;width:100px;">
+                                        行政區
+                                    </th>
+                                    <th style="min-width:200px;width:200px;max-width:200px;">
+                                        建議路口/段
+                                    </th>
+                                    <th>
+                                        建議事項
+                                    </th>
+                                    <th style="min-width:85px;width:85px;max-width:85px;">
+                                        承辦人
+                                    </th>
+                                    <th style="min-width:125px;width:125px;max-width:125px;">
+                                        案件狀態
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="nowList in home.caseNum.CaseBase|limitTo:5">
+                                    <td style="vertical-align:middle;max-width:75px;" class="kai-textOver">{{nowList.CaseBaseID}}</td>
+                                    <td style="vertical-align:middle;max-width:120px;" class="kai-textOver">{{nowList.SuggestDate}}</td>
+                                    <td style="vertical-align:middle;max-width:105px;" class="kai-textOver">{{nowList.CouncilorName.Name}}</td>
+                                    <td style="vertical-align:middle;max-width:100px;" class="kai-textOver">{{nowList.Zone.Name}}</td>
+                                    <td style="vertical-align:middle;max-width:200px;" class="kai-textOver">{{nowList.Address}}</td>
+                                    <td ng-bind-html="nowList.SuggestContent|toSpace:'n'" style="word-break:break-all;word-wrap:break-word;"></td>
+                                    <td style="vertical-align:middle;max-width:85px;" class="kai-textOver">{{nowList.CaseOfficer.UserName}}</td>
+                                    <td style="vertical-align:middle;max-width:125px;" class="{{nowList.OverDay|overDay}} kai-textOver">{{nowList.OverDay}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-warning"></i>　最近逾期案件</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content font-14px" style="height:260px;">
+                <div class="table-responsive">
+                    <div style="min-width:1200px">
+                        <table class="table table-striped table-bordered table-hover font-16px caseListItem" style="display:none;opacity:0;margin-bottom:0;" id="caseListTable">
+                            <thead>
+                                <tr>
+                                    <th style="width:75px;min-width:75px;">
+                                        編號
+                                    </th>
+                                    <th style="min-width:120px;width:120px;">
+                                        建議時間
+                                    </th>
+                                    <th style="min-width:105px;width:105px;">
+                                        建議民代
+                                    </th>
+                                    <th style="min-width:100px;width:100px;">
+                                        行政區
+                                    </th>
+                                    <th style="min-width:200px;width:200px;max-width:200px;">
+                                        建議路口/段
+                                    </th>
+                                    <th>
+                                        建議事項
+                                    </th>
+                                    <th style="min-width:85px;width:85px;max-width:85px;">
+                                        承辦人
+                                    </th>
+                                    <th style="min-width:125px;width:125px;max-width:125px;">
+                                        案件狀態
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="nowList in home.caseNum.CaseBase|filter:'逾期'|limitTo:5">
+                                    <td style="vertical-align:middle;max-width:75px;" class="kai-textOver">{{nowList.CaseBaseID}}</td>
+                                    <td style="vertical-align:middle;max-width:120px;" class="kai-textOver">{{nowList.SuggestDate}}</td>
+                                    <td style="vertical-align:middle;max-width:105px;" class="kai-textOver">{{nowList.CouncilorName.Name}}</td>
+                                    <td style="vertical-align:middle;max-width:100px;" class="kai-textOver">{{nowList.Zone.Name}}</td>
+                                    <td style="vertical-align:middle;max-width:200px;" class="kai-textOver">{{nowList.Address}}</td>
+                                    <td ng-bind-html="nowList.SuggestContent|toSpace:'n'" style="word-break:break-all;word-wrap:break-word;"></td>
+                                    <td style="vertical-align:middle;max-width:85px;" class="kai-textOver">{{nowList.CaseOfficer.UserName}}</td>
+                                    <td style="vertical-align:middle;max-width:125px;" class="{{nowList.OverDay|overDay}} kai-textOver">{{nowList.OverDay}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

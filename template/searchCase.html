@@ -1,0 +1,307 @@
+﻿<div class="page-title">
+    <span class="title_left">
+        <span class="font-f font-18px">案件列表 > {{searchCase.nowUrl}}</span>
+    </span>
+</div>
+<br />
+<div class="x_panel kai-topLine-primary" style="border-bottom-left-radius:0;border-bottom-right-radius:0;margin-top:5px;margin-bottom:0;">
+    <div class="x_content">
+        <div class="col-md-2 col-xs-4" style="margin-top:10px;">
+            <select class="form-control kai-height38" ng-model="searchCase.myPage.councilorName">
+                <option value="">民代 ─ 全部</option>
+                <option ng-repeat="CouncilorNameList in searchCase.myPage.CouncilorNameList" value={{CouncilorNameList}}>{{CouncilorNameList}}</option>
+            </select>
+        </div>
+        <div class="col-md-2 col-xs-4" style="margin-top:10px;">
+            <select class="form-control kai-height38" ng-model="searchCase.myPage.zone">
+                <option value="">行政區 ─ 全部</option>
+                <option ng-repeat="ZoneList in searchCase.myPage.ZoneList" value={{ZoneList}}>{{ZoneList}}</option>
+            </select>
+        </div>
+        <div class="col-md-2 col-xs-4" style="margin-top:10px;">
+            <select class="form-control kai-height38" ng-model="searchCase.myPage.caseOfficer">
+                <option value="">承辦人 ─ 全部</option>
+                <option ng-repeat="CaseOfficerList in searchCase.myPage.CaseOfficerList" value={{CaseOfficerList}}>{{CaseOfficerList}}</option>
+            </select>
+        </div>
+        <div class="col-md-2 col-xs-6 form-group has-feedback" ng-click="searchCase.dateClick('searchStartDate')" style="margin-top:10px;margin-bottom:0;">
+            <input type="text" id="searchStartDate" ng-model="searchCase.myPage.startDate" class="form-control has-feedback-left kai-height38 kai-hand" style="background-color:white;" readonly="readonly">
+            <span class="fa fa-calendar form-control-feedback left" aria-hidden="true"></span>
+        </div>
+        <script>
+            $('#searchStartDate').datetimepicker({
+                autoclose: true,
+                todayHighlight: true,
+                format: 'yyy-mm-dd',
+                minView: 2,
+                language: "zh-TW"
+            });
+        </script>
+        <div class="col-md-2 col-xs-6 form-group has-feedback" ng-click="searchCase.dateClick('searchEndDate')" onselectstart="return false" style="margin-top:10px;margin-bottom:0;">
+            <input type="text" id="searchEndDate" ng-model="searchCase.myPage.endDate" class="form-control has-feedback-left kai-height38 kai-hand" style="background-color:white;" readonly="readonly">
+            <span class="fa fa-calendar form-control-feedback left" aria-hidden="true"></span>
+        </div>
+        <script>
+            $('#searchEndDate').datetimepicker({
+                autoclose: true,
+                todayHighlight: true,
+                format: 'yyy-mm-dd',
+                minView: 2,
+                language: "zh-TW"
+            });
+        </script>
+        <div class="col-md-2 col-xs-12" style="margin-top:10px;">
+            <div class="input-group">
+                <input type="text" class="form-control kai-height38" ng-model="searchCase.myPage.searchKey" placeholder="快速搜尋">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" style="height:38px;" ng-click="searchCase.setSearchNull()">重置</button>
+                </span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="font-16px pull-right" style="width:80px;">
+    <select class="form-control" ng-model="searchCase.myPage.itemsPerPage">
+        <option value=10>10</option>
+        <option value=20>20</option>
+        <option value=50>50</option>
+        <option value=100>100</option>
+    </select>
+</div>
+<div class="row">
+    <div class="btn-group pull-right" style="margin-right:10px;">
+        <button ng-disabled="searchCase.excelbtn" ng-click="searchCase.getExcel()" class="btn btn-default" ng-if="searchCase.myPage.nowList.length!=0">匯出Excel</button>
+        <button type="button" class="btn btn-default" ng-click="searchCase.setExcel('edit')">
+            <i class="fa fa-gear"></i>
+        </button>
+    </div>
+    <div class="font-16px pull-right" style="margin-right:5px;">
+        <button type="button" class="btn btn-default">
+            總計：{{searchCase.myPage.totalItems.length}} 筆
+        </button>
+    </div>
+</div>
+<div class="table-responsive caseListItem">
+    <div style="min-width:1200px">
+        <table class="table table-striped table-bordered table-hover font-16px caseListItem" style="display:none;opacity:0;background-color:white;" id="caseListTable">
+            <thead>
+                <tr class="kai-hand">
+                    <th style="width:75px;min-width:75px;max-width:75px;" ng-click="searchCase.myPage.orderItem('CaseBaseID')">
+                        編號
+                        <span class="glyphicon pull-right"
+                              ng-class="{'kai-table-order':searchCase.myPage.listOrderItem!='CaseBaseID',
+                              'kai-table-order-up-down':searchCase.myPage.listOrderItem=='CaseBaseID',
+                              'glyphicon-sort':searchCase.myPage.listOrderItem!='CaseBaseID',
+                              'glyphicon-sort-by-attributes-alt':searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='CaseBaseID',
+                              'glyphicon-sort-by-attributes':!searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='CaseBaseID'}"
+                              aria-hidden="true"></span>
+                    </th>
+                    <th width="10%" style="min-width:120px;width:120px;max-width:120px;" ng-click="searchCase.myPage.orderItem('SuggestDate')">
+                        建議時間
+                        <span class="glyphicon pull-right"
+                              ng-class="{'kai-table-order':searchCase.myPage.listOrderItem!='SuggestDate',
+                              'kai-table-order-up-down':searchCase.myPage.listOrderItem=='SuggestDate',
+                              'glyphicon-sort':searchCase.myPage.listOrderItem!='SuggestDate',
+                              'glyphicon-sort-by-attributes-alt':searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='SuggestDate',
+                              'glyphicon-sort-by-attributes':!searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='SuggestDate'}"
+                              aria-hidden="true"></span>
+                    </th>
+                    <th width="10%" style="min-width:105px;width:105px;max-width:105px;" ng-click="searchCase.myPage.orderItem('CouncilorName.Name')">
+                        建議民代
+                        <span class="glyphicon pull-right"
+                              ng-class="{'kai-table-order':searchCase.myPage.listOrderItem!='CouncilorName.Name',
+                              'kai-table-order-up-down':searchCase.myPage.listOrderItem=='CouncilorName.Name',
+                              'glyphicon-sort':searchCase.myPage.listOrderItem!='CouncilorName.Name',
+                              'glyphicon-sort-by-attributes-alt':searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='CouncilorName.Name',
+                              'glyphicon-sort-by-attributes':!searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='CouncilorName.Name'}"
+                              aria-hidden="true"></span>
+                    </th>
+                    <th width="10%" style="min-width:100px;width:100px;max-width:100px;" ng-click="searchCase.myPage.orderItem('Zone.Name')">
+                        行政區
+                        <span class="glyphicon pull-right"
+                              ng-class="{'kai-table-order':searchCase.myPage.listOrderItem!='Zone.Name',
+                              'kai-table-order-up-down':searchCase.myPage.listOrderItem=='Zone.Name',
+                              'glyphicon-sort':searchCase.myPage.listOrderItem!='Zone.Name',
+                              'glyphicon-sort-by-attributes-alt':searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='Zone.Name',
+                              'glyphicon-sort-by-attributes':!searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='Zone.Name'}"
+                              aria-hidden="true"></span>
+                    </th>
+                    <th width="22%" style="min-width:200px;width:200px;max-width:200px;" ng-click="searchCase.myPage.orderItem('Address')">
+                        建議路口/段
+                        <span class="glyphicon pull-right"
+                              ng-class="{'kai-table-order':searchCase.myPage.listOrderItem!='Address',
+                              'kai-table-order-up-down':searchCase.myPage.listOrderItem=='Address',
+                              'glyphicon-sort':searchCase.myPage.listOrderItem!='Address',
+                              'glyphicon-sort-by-attributes-alt':searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='Address',
+                              'glyphicon-sort-by-attributes':!searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='Address'}"
+                              aria-hidden="true"></span>
+                    </th>
+                    <th style="min-width:200px;" ng-click="searchCase.myPage.orderItem('SuggestContent')">
+                        建議事項
+                        <span class="glyphicon pull-right"
+                              ng-class="{'kai-table-order':searchCase.myPage.listOrderItem!='SuggestContent',
+                              'kai-table-order-up-down':searchCase.myPage.listOrderItem=='SuggestContent',
+                              'glyphicon-sort':searchCase.myPage.listOrderItem!='SuggestContent',
+                              'glyphicon-sort-by-attributes-alt':searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='SuggestContent',
+                              'glyphicon-sort-by-attributes':!searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='SuggestContent'}"
+                              aria-hidden="true"></span>
+                    </th>
+                    <th width="10%" style="min-width:85px;width:85px;max-width:85px;" ng-click="searchCase.myPage.orderItem('CaseOfficer.UserName')">
+                        承辦人
+                        <span class="glyphicon pull-right"
+                              ng-class="{'kai-table-order':searchCase.myPage.listOrderItem!='CaseOfficer.UserName',
+                              'kai-table-order-up-down':searchCase.myPage.listOrderItem=='CaseOfficer.UserName',
+                              'glyphicon-sort':searchCase.myPage.listOrderItem!='CaseOfficer.UserName',
+                              'glyphicon-sort-by-attributes-alt':searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='CaseOfficer.UserName',
+                              'glyphicon-sort-by-attributes':!searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='CaseOfficer.UserName'}"
+                              aria-hidden="true"></span>
+                    </th>
+                    <th width="10%" style="min-width:125px;width:125px;max-width:125px;" ng-click="searchCase.myPage.orderItem('OverDay')">
+                        案件狀態
+                        <span class="glyphicon pull-right"
+                              ng-class="{'kai-table-order':searchCase.myPage.listOrderItem!='OverDay',
+                              'kai-table-order-up-down':searchCase.myPage.listOrderItem=='OverDay',
+                              'glyphicon-sort':searchCase.myPage.listOrderItem!='OverDay',
+                              'glyphicon-sort-by-attributes-alt':searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='OverDay',
+                              'glyphicon-sort-by-attributes':!searchCase.myPage.listOrderby && searchCase.myPage.listOrderItem=='OverDay'}"
+                              aria-hidden="true"></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="nowList in searchCase.myPage.nowList">
+                <tr ng-click="searchCase.toggleDetail(nowList.CaseBaseID)" class="kai-hand" ng-class-odd="'kai-bgblue'" ng-class-even="'kai-bgwhite'">
+                    <td style="vertical-align:middle;max-width:75px;" class="kai-textOver">{{nowList.CaseBaseID}}</td>
+                    <td style="vertical-align:middle;max-width:120px;" class="kai-textOver">{{nowList.SuggestDate}}</td>
+                    <td style="vertical-align:middle;max-width:105px;" class="kai-textOver">{{nowList.CouncilorName.Name}}</td>
+                    <td style="vertical-align:middle;max-width:100px;" class="kai-textOver">{{nowList.Zone.Name}}</td>
+                    <td style="vertical-align:middle;max-width:200px;" >{{nowList.Address}}</td>
+                    <td ng-bind-html="nowList.SuggestContent|toSpace:'n'" style="word-break:break-all;word-wrap:break-word;vertical-align:middle;"></td>
+                    <td style="vertical-align:middle;max-width:85px;" class="kai-textOver">{{nowList.CaseOfficer.UserName}}</td>
+                    <td style="vertical-align:middle;max-width:125px;" class="{{nowList.OverDay|overDay}} kai-textOver">{{nowList.OverDay}}</td>
+                </tr>
+                <tr style="display:none" class="detailTr" id="detailTr{{nowList.CaseBaseID}}">
+                    <td colspan="8" style="padding:0;word-break:break-all;word-wrap:break-word;">
+                        <div style="padding:0;">
+                            <div style="margin:0;" ng-class-odd="'kai-leftLine-warning'" ng-class-even="'kai-leftLine-info kai-bgColor-pink'">
+                                <div class="collapse caseDetail" id="caseDetail{{nowList.CaseBaseID}}">
+                                    <div class="row" style="width:95%;padding:15px;margin-bottom:0;">
+                                        <div class="col-xs-6 font-16px" style="margin-bottom:0;">
+                                            <div style="margin-bottom:10px;">
+                                                <span class="kai-blue">民代職稱：</span>
+                                                <span class="kai-gnn">{{nowList.CouncilorNameType}}</span>
+                                            </div>
+                                            <div style="margin-bottom:10px;">
+                                                <span class="kai-blue ">聯絡人　：</span>
+                                                <span class="kai-gnn">{{nowList.ContactName}}</span>
+                                            </div>
+                                            <div style="margin-bottom:10px;">
+                                                <span class="kai-blue">連絡電話：</span>
+                                                <span class="kai-gnn">{{nowList.ContactTel}}</span>
+                                            </div>
+                                            <div style="margin-bottom:10px;">
+                                                <span class="kai-blue">除管日期：</span>
+                                                <span class="kai-gnn">{{nowList.EndDate}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 font-16px">
+                                            <span class="kai-blue">辦理情形：</span>
+                                            <div ng-bind-html="nowList.ExecuteContent|toSpace:'n'" class="kai-gnn" style="line-height:20px;margin-top:10px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="caseListItem" style="display:none;opacity:0;padding:10px;">
+    <div style="width:100%;text-align:center;display:none;opacity:0;" class="caseListItem hidden-xs" ng-show="searchCase.myPage.pageShow">
+        <uib-pagination total-items="searchCase.myPage.totalItems.length"
+                        ng-model="searchCase.myPage.currentPage"
+                        items-per-page="searchCase.myPage.itemsPerPage"
+                        max-size="searchCase.myPage.maxSize"
+                        class="pagination-lg"
+                        boundary-links="true"
+                        previous-text="上一頁"
+                        next-text="下一頁"
+                        first-text="<<"
+                        last-text=">>">
+        </uib-pagination>
+    </div>
+    <div style="width:100%;text-align:center;display:none;opacity:0;" class="caseListItem visible-xs-inline-block" ng-show="searchCase.myPage.pageShow">
+        <uib-pagination total-items="searchCase.myPage.totalItems.length"
+                        ng-model="searchCase.myPage.currentPage"
+                        items-per-page="searchCase.myPage.itemsPerPage"
+                        max-size="2"
+                        class="pagination"
+                        previous-text="上一頁"
+                        next-text="下一頁"
+                        first-text="<<"
+                        last-text=">>">
+        </uib-pagination>
+    </div>
+</div>
+<div class="modal fade" id="setExcelCol" tabindex="-1" style="position:absolute;" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">設定Excel匯出欄位</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding-top:0;">
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('CaseBaseID',searchCase.excelCol.CaseBaseID)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.CaseBaseID=='check'}"></div>
+                        <span>編號</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('SuggestDate',searchCase.excelCol.SuggestDate)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.SuggestDate=='check'}"></div>
+                        <span>建議日期</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('CouncilorName',searchCase.excelCol.CouncilorName)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.CouncilorName=='check'}"></div>
+                        <span>建議民代</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('ContactName',searchCase.excelCol.ContactName)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.ContactName=='check'}"></div>
+                        <span>聯絡人</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('ContactTel',searchCase.excelCol.ContactTel)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.ContactTel=='check'}"></div>
+                        <span>聯絡電話</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('Zone',searchCase.excelCol.Zone)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.Zone=='check'}"></div>
+                        <span>行政區</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('Address',searchCase.excelCol.Address)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.Address=='check'}"></div>
+                        <span>建議路口/段</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('SuggestContent',searchCase.excelCol.SuggestContent)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.SuggestContent=='check'}"></div>
+                        <span>建議事項</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('CaseOfficer',searchCase.excelCol.CaseOfficer)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.CaseOfficer=='check'}"></div>
+                        <span>承辦人</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('ExecuteContent',searchCase.excelCol.ExecuteContent)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.ExecuteContent=='check'}"></div>
+                        <span>辦理情形</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-3 kai-hand" style="margin-top:15px;margin-bottom:15px;left:20px;" ng-click="searchCase.setCol('State',searchCase.excelCol.State)">
+                        <div class="icheckbox_flat-blue" ng-class="{'checked':searchCase.excelCol.State=='check'}"></div>
+                        <span>案件狀態</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="width:100%;" class="btn btn-primary" data-dismiss="modal">離開</button>
+            </div>
+        </div>
+    </div>
+</div>

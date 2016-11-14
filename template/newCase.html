@@ -1,0 +1,100 @@
+﻿<div class="x_panel kai-topLine-primary" id="newCase">
+    <div class="x_title">
+        <h3>新增案件</h3>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content font-18px">
+        <br />
+        <form id="demo-form2" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12 kai-formLabel38">
+                    建議時間
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12" ng-click="newCase.dateClick('suggestDate')">
+                    <input type="text" ng-model="newCase.caseSubmitList.suggestDate" id="suggestDate" class="kai-formText38 form-control col-md-7 col-xs-12 kai-hand" readonly="readonly" style="background-color:white;">
+                </div>
+            </div>
+            <script>
+                $('#suggestDate').datetimepicker({
+                    autoclose: true,
+                    todayHighlight: true,
+                    format: 'yyy-mm-dd',
+                    minView: 2,
+                    language: "zh-TW"
+                });
+            </script>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12 kai-formLabel38">建議民代</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select id="councilorName" class="select2_single form-control kai-formText38" style="width:100%" 
+                            ng-options="councilorNameList.Name for councilorNameList in newCase.councilorNameList track by councilorNameList.CouncilorNameID"
+                            ng-model="newCase.caseSubmitList.Councilor" 
+                            ng-change="newCase.getcouncilorType(newCase.caseSubmitList.Councilor.CouncilorNameID)">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12 kai-formLabel38">
+                    聯絡人
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" maxlength="20" ng-model="newCase.caseSubmitList.contactName" class="kai-formText38 form-control col-md-7 col-xs-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12 kai-formLabel38">
+                    連絡電話
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" maxlength="20" ng-model="newCase.caseSubmitList.contactTel" class="kai-formText38 form-control col-md-7 col-xs-12">
+                </div>
+            </div>            
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12 kai-formLabel38">承辦人</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select id="caseOfficer" class="select2_single form-control kai-formText38" style="width:100%" 
+                            ng-options="userNameList.UserName for userNameList in newCase.userNameList track by userNameList.UserLoginID"
+                            ng-model="newCase.caseSubmitList.UserLogin">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12 kai-formLabel38">行政區</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select id="zone" class="select2_single form-control kai-formText38" style="width:100%" 
+                            ng-options="zoneList.Name for zoneList in newCase.zoneList track by zoneList.ZoneID"
+                             ng-model="newCase.caseSubmitList.Zone">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12 kai-formLabel38">
+                    建議路口/段
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <textarea maxlength="80" ng-model="newCase.caseSubmitList.address" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                    建議事項
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <textarea maxlength="555" ng-model="newCase.caseSubmitList.suggestContent" class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-xs-6">
+                    <a style="width:100%" ng-click="newCase.caseSubmit()" class="btn btn-primary">新增</a>
+                </div>
+                <div class="col-xs-6">
+                    <a href="#/caseList/CaseListAll" style="width:100%" class="btn btn-default">取消</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

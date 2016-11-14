@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="short icon" href="councilorFavicon.ico" />
+    <link rel="icon" href="councilorFavicon.ico" type="image/ico" />
+    <link rel="Bookmark" href="councilorFavicon.ico" type="image/x-icon" />
+    <title>議員服務案件管理系統</title>
+
+    <!-- Base -->
+    <script type="text/javascript" src="kCustom/kai.js"></script>
+    <script type="text/javascript" src="kCustom/jquery.min.js"></script>
+    <script type="text/javascript" src="kCustom/angular.min.js"></script>
+    <script type="text/javascript" src="kCustom/angular-route.js"></script>
+    <script type="text/javascript" src="kCustom/ui-bootstrap-tpls-1.3.2.min.js"></script>
+    <script type="text/javascript" src="kCustom/angular-sanitize.min.js"></script>
+
+    <script src="kCustom/Blob.js"></script>
+    <script src="kCustom/canvas-toBlob.js"></script>
+    <script src="kCustom/FileSaver.js"></script>
+    <!-- BootstrapAdminTemplate -->
+    <script type="text/javascript" src="AdminTemplate/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="AdminTemplate/css/bootstrap.css" />
+    <link rel="stylesheet" href="AdminTemplate/fonts/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="AdminTemplate/css/animate.min.css" />
+    <link rel="stylesheet" href="AdminTemplate/css/custom.css" />
+    <link rel="stylesheet" href="AdminTemplate/css/select/select2.min.css">
+    <link rel="stylesheet" href="AdminTemplate/css/icheck/flat/blue.css">
+    <script src="AdminTemplate/js/chartjs/chart.min.js"></script>
+    <script src="AdminTemplate/js/select/select2.full.js"></script>
+    <script src="AdminTemplate/js/icheck/icheck.min.js"></script>
+
+    <!--自訂 -->
+    <link rel="stylesheet" href="kCustom/Kai.css" />
+
+    <!-- datetimepicker -->
+    <link rel="stylesheet" href="kCustom/bootstrap-datetimepicker.css">
+    <script type="text/javascript" src="kCustom/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="kCustom/bootstrap-datetimepicker.zh-TW.js"></script>
+
+    <!-- angularjs -->
+    <script src="kCustom/AngController/councilor.js"></script>
+    <script src="kCustom/Kai-ng-ui.js"></script>
+    <script src="kCustom/AngController/home.js"></script>
+    <script src="kCustom/AngController/newCase.js"></script>
+    <script src="kCustom/AngController/caseList.js"></script>
+    <script src="kCustom/AngController/searchCase.js"></script>
+    <script src="kCustom/AngController/userManager.js"></script>
+    <script src="kCustom/AngController/councilorManager.js"></script>
+    <script src="kCustom/AngController/zoneManager.js"></script>
+    <script src="kCustom/AngController/mailManager.js"></script>
+    <script src="kCustom/AngController/jobTitleManager.js"></script>
+    <script src="kCustom/AngController/filter.js"></script>
+    <script src="kCustom/AngController/route.js"></script>
+</head>
+<body class="nav-md table-responsive" id="indexBody" style="overflow-y:scroll">
+    <div style="min-width:768px;">
+        <div ng-controller="councilor as rootBase" ng-app="councilorApp">
+            <div class="container body">
+                <!-- 左邊選單 -->
+                <div class="main_container">
+                    <div class="col-md-3 left_col">
+                        <div class="left_col scroll-view">
+                            <div class="navbar nav_title" style="border-bottom: 1px solid #303030;">
+                                <a href="#" class="site_title" style="vertical-align: middle; line-height: 50px">
+                                    <span class="font-18px">議員服務案件管理系統</span>
+                                </a>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                                <div class="menu_section">
+                                    <ul class="nav side-menu font-14px">
+                                        <li>
+                                            <a href="#/home"><i class="fa fa-dashboard"></i>儀表板</a>
+                                        </li>
+                                        <li>
+                                            <a><i class="fa fa-folder-open"></i>案件列表 <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none">
+                                                <li>
+                                                    <a href="#/caseList/CaseListAll">列管案件</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/caseList/My">個人待辦</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/caseList/1">號誌股</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/caseList/2">交控股</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a><i class="fa fa-search"></i>案件查詢 <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none">
+                                                <li>
+                                                    <a href="#/searchCase/CaseSearchAll">全部</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/searchCase/WaitCase">列管案件</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/searchCase/YearSearch">列入年度計畫</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/searchCase/OverDateSearch">逾期案件</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/searchCase/EndSearch">除管案件</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#/newCase"><i class="fa fa-file-o"></i>案件新增</a>
+                                        </li>
+                                        <li ng-show="rootBase.user.Admin=='1'||rootBase.user.Admin=='2'">
+                                            <a><i class="fa fa-cog"></i>設定 <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none">
+                                                <li>
+                                                    <a href="#/userManager">人員帳號管理</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/jobTitleManager">人員職稱管理</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/councilorManager">民意代表管理</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li ng-show="rootBase.user.Admin=='2'" ng-click="rootBase.super()">
+                                            <a><i class="fa fa-warning"></i>進階設定 <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none">
+                                                <li>
+                                                    <a href="#/zoneManager">行政區管理</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#/mailManager">郵件管理</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 右上 -->
+                    <div class="top_nav">
+                        <div class="nav_menu">
+                            <nav class="" role="navigation">
+                                <div class="nav toggle">
+                                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                                </div>
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="">
+                                        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa fa-user"></i>　<span ng-bind-html="rootBase.user.Unit|numberTranslateText:'1'"></span>　<span ng-bind-html="rootBase.user.UserName"></span>
+                                            <span class="fa fa-angle-down"></span>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                            <li>
+                                                <a href="" ng-click="rootBase.editMy('edit')">  修改基本資料</a>
+                                            </li>
+                                            <li>
+                                                <a href="" ng-click="rootBase.logout()"><i class="fa fa-sign-out pull-right"></i> 登出</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- 右邊內容 -->
+                    <div class="right_col" role="main">
+                        <div ng-view></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="editMyAD" tabindex="-1" style="position:absolute;" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">修改基本資料</h4>
+                        </div>
+                        <div class="modal-body" style="padding:25px;padding-top:10px">
+                            <div class="row">
+                                <form name="editMyAD">
+                                    <div class="col-lg-12" style="margin-bottom:10px;">
+                                        <span class="font-16px">姓名</span>
+                                    </div>
+                                    <div ng-class="{'has-error':!editMyAD.$valid}">
+                                        <input type="text" maxlength="20" class="kai-formText38 form-control col-md-7 col-xs-12" id="editMyADName" ng-model="rootBase.edit.Name" style="margin-bottom:10px;" required>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:10px;">
+                                        <span class="font-16px">新的密碼</span>
+                                    </div>
+                                    <input type="password" style="margin-bottom:10px;" maxlength="20" class="kai-formText38 form-control col-md-7 col-xs-12" id="editMyADPassword" ng-model="rootBase.edit.Password" placeholder="空白為不更改">
+                                    <div class="col-lg-12" style="margin-bottom:10px;">
+                                        <span class="font-16px">新的密碼確認</span><spna style="color:red;line-height:16px;vertical-align:middle;" ng-show="rootBase.edit.Password !=rootBase.edit.Password2">　　密碼不一致</spna>
+                                    </div>
+                                    <div ng-class="{'has-error':rootBase.edit.Password !=rootBase.edit.Password2}">
+                                        <input type="password" maxlength="20" class="kai-formText38 form-control col-md-7 col-xs-12" id="editMyADPassword" ng-model="rootBase.edit.Password2" placeholder="空白為不更改">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="button" style="width:100%;" ng-disabled="!editMyAD.$valid || rootBase.edit.Password !=rootBase.edit.Password2" class="btn btn-primary" ng-click="rootBase.editMy('ok')">確定</button>
+                                </div>
+                                <div class="col-xs-6">
+                                    <button type="button" style="width:100%;" class="btn btn-default" data-dismiss="modal">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var URL = window.location,
+    $BODY = $('body'),
+    $MENU_TOGGLE = $('#menu_toggle'),
+    $SIDEBAR_MENU = $('#sidebar-menu'),
+    $SIDEBAR_FOOTER = $('.sidebar-footer'),
+    $LEFT_COL = $('.left_col'),
+    $RIGHT_COL = $('.right_col'),
+    $NAV_MENU = $('.nav_menu'),
+    $FOOTER = $('footer');
+    $(function () {
+        var setContentHeight = function () {
+
+            $RIGHT_COL.css('min-height', $(window).height());
+            var bodyHeight = $BODY.height(),
+                leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
+                contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
+            contentHeight -= $NAV_MENU.height() + $FOOTER.height();
+            if (contentHeight < 800) {
+                $RIGHT_COL.css('min-height', contentHeight + 55);
+            }
+        };
+        $SIDEBAR_MENU.find('a').on('click', function (ev) {
+            var $li = $(this).parent();
+            if ($BODY.hasClass('nav-sm')) {
+                console.log('a');
+                $(".side-menu li").removeClass('active-sm');
+                if ($li.parent().is('.child_menu')) {
+                    $li.parent().css("display", "none");
+                    $li.parent().parent().removeClass('active');
+                    $li.parent().parent().addClass('active-sm');
+                }
+
+            }
+
+            if ($li.is('.active')) {
+                if ($li.find('ul').length > 0) {
+                    if ($li.parent().is('.side-menu')) {
+                        $li.removeClass('active');
+                    }
+                }
+                $('ul:first', $li).slideUp(function () {
+                    setContentHeight();
+                });
+            } else {
+                // prevent closing menu if we are on child menu
+                if (!$li.parent().is('.child_menu')) {
+                    $SIDEBAR_MENU.find('li').removeClass('active');
+                    $SIDEBAR_MENU.find('li ul').slideUp();
+                }
+                if ($li.parent().is('.side-menu')) {
+                    $(".side-menu li").removeClass('active');
+                    $li.addClass('active');
+                }
+                if ($li.parent().is('.child_menu')) {
+                    $(".child_menu li").removeClass('current-page');
+                    $li.addClass('current-page');
+                }
+                $('ul:first', $li).slideDown(function () {
+                    setContentHeight();
+                });
+            }
+        });
+
+        $MENU_TOGGLE.on('click', function () {
+            if ($BODY.hasClass('nav-md')) {
+                $BODY.removeClass('nav-md').addClass('nav-sm');
+                $LEFT_COL.removeClass('scroll-view').removeAttr('style');
+                if ($SIDEBAR_MENU.find('li').hasClass('active')) {
+                    $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+                    $SIDEBAR_MENU.find('li.active-sm ul').css("display", "none");
+                }
+            } else {
+                $BODY.removeClass('nav-sm').addClass('nav-md');
+                if ($SIDEBAR_MENU.find('li').hasClass('active-sm')) {
+                    $SIDEBAR_MENU.find('li.active-sm ul').css("display", "block");
+                    $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
+                }
+            }
+            setContentHeight();
+        });
+
+        var aaa = $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]');
+        if (($SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').parent().is('.side-menu'))) {
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').addClass('active');
+        } else {
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').addClass('current-page');
+        }
+        $SIDEBAR_MENU.find('a').filter(function () {
+            return this.href == URL;
+        }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
+            setContentHeight();
+        }).parent().addClass('active');
+
+        if (($SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').parent().is('.side-menu'))) {
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').removeClass('current-page');
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').addClass('active');
+        } else {
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').addClass('current-page');
+        }
+        setContentHeight();
+    });
+
+    function reMenu() {
+        $('li').removeClass('active');
+        var setContentHeight = function () {
+            $RIGHT_COL.css('min-height', $(window).height());
+            var bodyHeight = $BODY.height(),
+                leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
+                contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
+
+
+            contentHeight -= $NAV_MENU.height() + $FOOTER.height();
+            if (contentHeight < 800) {
+                $RIGHT_COL.css('min-height', contentHeight + 55);
+            }
+        };
+
+        var aaa = $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]');
+        if (($SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').parent().is('.side-menu'))) {
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').addClass('active');
+        } else {
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').addClass('current-page');
+        }
+        $SIDEBAR_MENU.find('a').filter(function () {
+            return this.href == URL;
+        }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
+            setContentHeight();
+        }).parent().addClass('active');
+
+        if (($SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').parent().is('.side-menu'))) {
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').removeClass('current-page');
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').addClass('active');
+        } else {
+            $SIDEBAR_MENU.find('a[href="' + URL.hash + '"]').parent('li').addClass('current-page');
+        }
+        setContentHeight();
+    }
+</script>
